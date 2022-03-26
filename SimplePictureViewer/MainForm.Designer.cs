@@ -142,7 +142,6 @@
             this.Controls.Add(this.MenuStrip);
             this.Controls.Add(this.PbImage);
             this.MainMenuStrip = this.MenuStrip;
-            this.MaximizeBox = false;
             this.Name = "MainForm";
             this.ShowIcon = false;
             this.Load += new System.EventHandler(this.MainForm_Load);
