@@ -1,19 +1,28 @@
 using System.IO;
+using System.Linq;
 
 namespace SimplePictureViewer
 {
     public partial class MainForm : Form
     {
         private OpenFileDialog _openFileDialog;
+
         private FolderBrowserDialog _folderBrowserDialog;
+        private List<string> _imagesInSelectedPath;
+        private int _displayedImgIndex;
+
+        private readonly List<string> _supportedImageExtensions = new List<string>()
+        {
+            "BMP", "GIF", "JPEG", "JPG", "EXIF", "PNG", "TIFF", "SVG"
+        };
 
         private enum OpenType
         {
-            File, 
+            File,
             Folder
         }
 
-        private event Action<OpenType> OnPictureContentSelected;
+        private event Action<OpenType, string> OnPictureContentSelected;
 
         public MainForm()
         {
@@ -23,59 +32,85 @@ namespace SimplePictureViewer
             _folderBrowserDialog = new FolderBrowserDialog();
 
             BtnClose.Enabled = false;
-
-            btnPreviousImage.Enabled = false;
-            btnPreviousImage.Visible = false;
-
-            btnNextImage.Enabled = false;
-            btnNextImage.Visible = false;
+            RemoveNavitagionButtons();
 
             OnPictureContentSelected += EnableButtons;
+            OnPictureContentSelected += SetPictureBoxContent;
         }
 
-        private void EnableButtons(OpenType openType)
+        private void SetPictureBoxContent(OpenType openType, string sourcePath)
+        {
+            PbImage.Visible = true;
+            switch (openType)
+            {
+                case OpenType.File:
+                    PbImage.Image = Image.FromFile(sourcePath);
+                    break;
+
+                case OpenType.Folder:
+                    _imagesInSelectedPath = GetImagesPathsFrom(sourcePath);
+                    if (_imagesInSelectedPath.Count > 0)
+                    {
+                        PbImage.Image = Image.FromFile(_imagesInSelectedPath[_displayedImgIndex++]);
+                    }
+                    else
+                    {
+                        ResetForm();
+                        return;
+                    }
+
+                    break;
+
+                default:
+                    throw new ArgumentException("Unsupported OpenType");
+            }
+
+            lbEmptyPb.Visible = false;
+        }
+
+        private List<string> GetImagesPathsFrom(string folderPath)
+        {
+            string[] filesPathInSelected = Directory.GetFiles(folderPath);
+
+            List<string> imagesInSelectedPath = new List<string>();
+            foreach (var filePath in filesPathInSelected)
+            {
+                if (_supportedImageExtensions.Contains(Path.GetExtension(filePath).ToUpperInvariant().Trim('.')))
+                {
+                    imagesInSelectedPath.Add(filePath);
+                }
+            }
+
+            return imagesInSelectedPath;
+        }
+
+        private void EnableButtons(OpenType openType, string sourcePath)
         {
             switch (openType)
             {
                 case OpenType.File:
-                    DisableNavigationButtons();
+                    RemoveNavitagionButtons();
                     break;
 
                 case OpenType.Folder:
-                    EnableNavitagionButtons();
+                    btnPreviousImage.Visible = true;
+                    btnPreviousImage.Enabled = false;
+                    btnNextImage.Visible = true;
                     break;
 
                 default:
-                    DisableNavigationButtons();
+                    RemoveNavitagionButtons();
                     BtnClose.Enabled = false;
                     throw new ArgumentException("Not supported OpenType");
             }
 
-            lbEmptyPb.Visible = false;
-            lbEmptyPb.Enabled = false;
-
             BtnClose.Enabled = true;
         }
-        private void DisableNavigationButtons()
+
+        private void RemoveNavitagionButtons()
         {
-            btnPreviousImage.Enabled = false;
             btnPreviousImage.Visible = false;
-
-            btnNextImage.Enabled = false;
             btnNextImage.Visible = false;
-        }
-        private void EnableNavitagionButtons()
-        {
-            btnPreviousImage.Enabled = true;
-            btnPreviousImage.Visible = true;
-
-            btnNextImage.Enabled = true;
-            btnNextImage.Visible = true;
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void BtnClose_Click(object sender, EventArgs e)
@@ -86,35 +121,55 @@ namespace SimplePictureViewer
         private void ResetForm()
         {
             PbImage.Image = null;
+            PbImage.Visible = false;
 
             lbEmptyPb.Visible = true;
-            lbEmptyPb.Enabled = true;
 
+            RemoveNavitagionButtons();
             BtnClose.Enabled = false;
         }
 
         private void BtnPreviousImage_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            PbImage.Image = Image.FromFile(_imagesInSelectedPath[--_displayedImgIndex]);
+            if(_displayedImgIndex == 0)
+            {
+                btnPreviousImage.Enabled = false;
+            }
+            else if (_displayedImgIndex == _imagesInSelectedPath.Count - 2)
+            {
+                btnNextImage.Enabled = true;
+            }
         }
 
         private void BtnNextImage_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            PbImage.Image = Image.FromFile(_imagesInSelectedPath[++_displayedImgIndex]);
+            if (_displayedImgIndex == _imagesInSelectedPath.Count - 1)
+            {
+                btnNextImage.Enabled = false;
+            }
+            else if (_displayedImgIndex > 0)
+            {
+                btnPreviousImage.Enabled = true;
+            }
         }
 
         private void ImgTSMItem_Click(object sender, EventArgs e)
         {
             if (_openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                PbImage.Image = Image.FromFile(_openFileDialog.FileName);
-                OnPictureContentSelected?.Invoke(OpenType.File);
+                OnPictureContentSelected?.Invoke(OpenType.File, _openFileDialog.FileName);
             }
         }
 
         private void FolderTSMItem_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            if (_folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            {
+                string selectedFolderPath = _folderBrowserDialog.SelectedPath;
+                OnPictureContentSelected?.Invoke(OpenType.Folder, selectedFolderPath);
+            }
         }
 
         private void ProjectTSMItem_Click(object sender, EventArgs e)
@@ -124,7 +179,8 @@ namespace SimplePictureViewer
 
         private void SupportedFileFormatsTSMItem_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            string message = "Supported image extensions: \n- " + String.Join("\n- ", _supportedImageExtensions);
+            MessageBox.Show(message, "Supported Extensions", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

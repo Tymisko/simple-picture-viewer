@@ -144,7 +144,6 @@
             this.MainMenuStrip = this.MenuStrip;
             this.Name = "MainForm";
             this.ShowIcon = false;
-            this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.PbImage)).EndInit();
             this.MenuStrip.ResumeLayout(false);
             this.MenuStrip.PerformLayout();
