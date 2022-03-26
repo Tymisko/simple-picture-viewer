@@ -174,7 +174,7 @@ namespace SimplePictureViewer
 
         private void ProjectTSMItem_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            System.Diagnostics.Process.Start("explorer.exe" ,@"https://github.com/Tymisko/simple-picture-viewer");
         }
 
         private void SupportedFileFormatsTSMItem_Click(object sender, EventArgs e)

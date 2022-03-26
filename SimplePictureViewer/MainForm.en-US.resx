@@ -68,6 +68,9 @@
   <data name="folderTsmItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>107, 22</value>
   </data>
+  <data name="projectTSMItem.Text" xml:space="preserve">
+    <value>Project Site</value>
+  </data>
   <data name="lbEmptyPb.Location" type="System.Drawing.Point, System.Drawing">
     <value>260, 274</value>
   </data>
