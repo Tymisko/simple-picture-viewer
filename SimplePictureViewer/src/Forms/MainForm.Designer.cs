@@ -41,7 +41,7 @@
             this._helpTSMItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SupFileFormatsTSMItem = new System.Windows.Forms.ToolStripMenuItem();
             this._projectTSMItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lbEmptyPb = new System.Windows.Forms.Label();
+            this._lbEmptyPb = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this._pb)).BeginInit();
             this.MenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -127,15 +127,15 @@
             // 
             // lbEmptyPb
             // 
-            resources.ApplyResources(this.lbEmptyPb, "lbEmptyPb");
-            this.lbEmptyPb.Name = "lbEmptyPb";
+            resources.ApplyResources(this._lbEmptyPb, "lbEmptyPb");
+            this._lbEmptyPb.Name = "lbEmptyPb";
             // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.Controls.Add(this.lbEmptyPb);
+            this.Controls.Add(this._lbEmptyPb);
             this.Controls.Add(this._btnPreviousImage);
             this.Controls.Add(this._btnNextImage);
             this.Controls.Add(this._btnClose);
@@ -165,6 +165,6 @@
         private ToolStripMenuItem _helpTSMItem;
         private ToolStripMenuItem SupFileFormatsTSMItem;
         private ToolStripMenuItem _projectTSMItem;
-        private Label lbEmptyPb;
+        private Label _lbEmptyPb;
     }
 }
