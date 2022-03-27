@@ -1,6 +1,6 @@
 # Simple Picture Viewer
 
-It is a the simplest picture viewer with basic options. Choose a folder or specific image and it displays in the app. Navigate between images in selected folder using <kbd>A</kbc> or <kbd>D</kbd> or in app buttons.
+It is a the simplest picture viewer with basic options. Choose a folder or specific image and it displays in the app. Navigate between images in selected folder using <kbd>A</kbd> or <kbd>D</kbd> or in app buttons.
 
 # Requiremenets
 

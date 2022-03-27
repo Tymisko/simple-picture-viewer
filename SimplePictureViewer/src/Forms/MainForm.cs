@@ -30,8 +30,9 @@ namespace SimplePictureViewer
             _openFileDialog = new OpenFileDialog();
             _folderBrowserDialog = new FolderBrowserDialog();
             _imagesInSelectedPath = new List<string>();
+            _displayedImgIndex = -1;
 
-            BtnClose.Enabled = false;
+            _btnClose.Enabled = false;
             RemoveNavitagionButtons();
 
             this.KeyDown += BtnNextImage_OnKeyDown;
@@ -40,18 +41,18 @@ namespace SimplePictureViewer
 
         private void SetPictureBoxContent(OpenType openType, string sourcePath)
         {
-            PbImage.Visible = true;
+            _pb.Visible = true;
             switch (openType)
             {
                 case OpenType.File:
-                    PbImage.Image = Image.FromFile(sourcePath);
+                    _pb.Image = Image.FromFile(sourcePath);
                     break;
 
                 case OpenType.Folder:
                     _imagesInSelectedPath = GetImagesPathsFrom(sourcePath);
                     if (_imagesInSelectedPath.Count > 0)
                     {
-                        PbImage.Image = Image.FromFile(_imagesInSelectedPath[_displayedImgIndex++]);
+                        _pb.Image = Image.FromFile(_imagesInSelectedPath[++_displayedImgIndex]);
                     }
                     else
                     {
@@ -93,24 +94,24 @@ namespace SimplePictureViewer
                     break;
 
                 case OpenType.Folder:
-                    btnPreviousImage.Visible = true;
-                    btnPreviousImage.Enabled = false;
-                    btnNextImage.Visible = true;
+                    _btnPreviousImage.Visible = true;
+                    _btnPreviousImage.Enabled = false;
+                    _btnNextImage.Visible = true;
                     break;
 
                 default:
                     RemoveNavitagionButtons();
-                    BtnClose.Enabled = false;
+                    _btnClose.Enabled = false;
                     throw new ArgumentException("Not supported OpenType");
             }
 
-            BtnClose.Enabled = true;
+            _btnClose.Enabled = true;
         }
 
         private void RemoveNavitagionButtons()
         {
-            btnPreviousImage.Visible = false;
-            btnNextImage.Visible = false;
+            _btnPreviousImage.Visible = false;
+            _btnNextImage.Visible = false;
         }
 
         private void BtnClose_Click(object sender, EventArgs e)
@@ -120,39 +121,38 @@ namespace SimplePictureViewer
 
         private void ResetForm()
         {
-            PbImage.Image = null;
-            PbImage.Visible = false;
+            _pb.Image = null;
+            _pb.Visible = false;
 
-            _displayedImgIndex = 0;
+            _displayedImgIndex = -1;
             _imagesInSelectedPath = new List<string>();
 
             lbEmptyPb.Visible = true;
 
             RemoveNavitagionButtons();
-            BtnClose.Enabled = false;
+            _btnClose.Enabled = false;
         }
 
         private void BtnPreviousImage_Click(object sender, EventArgs e)
         {
+            _pb.Image = Image.FromFile(_imagesInSelectedPath[--_displayedImgIndex]);
 
             bool isBeforeLastImage = _displayedImgIndex == _imagesInSelectedPath.Count - 2;
-            bool isFirstImage = _displayedImgIndex == 0;            
-            if(isFirstImage)
+            bool isFirstImage = _displayedImgIndex == 0;
+            if (isFirstImage)
             {
-                btnPreviousImage.Enabled = false;
-                return;
+                _btnPreviousImage.Enabled = false;
             }
             else if (isBeforeLastImage)
             {
-                btnNextImage.Enabled = true;
+                _btnNextImage.Enabled = true;
             }
-            PbImage.Image = Image.FromFile(_imagesInSelectedPath[--_displayedImgIndex]);
         }
 
         private void BtnPreviousImage_OnKeyDown(object? sender, KeyEventArgs e)
         {
-            bool isBtnPreviousImageDisabled = !btnPreviousImage.Enabled;
-            bool isBtnPreviousImageHidden = !btnPreviousImage.Visible;
+            bool isBtnPreviousImageDisabled = !_btnPreviousImage.Enabled;
+            bool isBtnPreviousImageHidden = !_btnPreviousImage.Visible;
             bool isNotDKeyPressed = !(e.KeyCode == Keys.A);
             if (isBtnPreviousImageDisabled || isBtnPreviousImageHidden || isNotDKeyPressed)
             {
@@ -164,24 +164,25 @@ namespace SimplePictureViewer
 
         private void BtnNextImage_Click(object sender, EventArgs e)
         {
+            _pb.Image = Image.FromFile(_imagesInSelectedPath[++_displayedImgIndex]);
+
             bool isLastImage = _displayedImgIndex == _imagesInSelectedPath.Count - 1;
             bool isNotFirstImage = _displayedImgIndex > 0;
             if (isLastImage)
             {
-                btnNextImage.Enabled = false;
+                _btnNextImage.Enabled = false;
                 return;
             }
             else if (isNotFirstImage)
             {
-                btnPreviousImage.Enabled = true;
+                _btnPreviousImage.Enabled = true;
             }
-            PbImage.Image = Image.FromFile(_imagesInSelectedPath[++_displayedImgIndex]);
         }
 
         private void BtnNextImage_OnKeyDown(object sender, KeyEventArgs e)
         {
-            bool isBtnNextImageDisabled = !btnNextImage.Enabled;
-            bool isBtnNextImageHidden = !btnNextImage.Visible;
+            bool isBtnNextImageDisabled = !_btnNextImage.Enabled;
+            bool isBtnNextImageHidden = !_btnNextImage.Visible;
             bool isNotDKeyPressed = !(e.KeyCode == Keys.D);
             if (isBtnNextImageDisabled || isBtnNextImageHidden || isNotDKeyPressed)
             {
@@ -212,7 +213,7 @@ namespace SimplePictureViewer
 
         private void ProjectTSMItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("explorer.exe" ,@"https://github.com/Tymisko/simple-picture-viewer");
+            System.Diagnostics.Process.Start("explorer.exe", @"https://github.com/Tymisko/simple-picture-viewer");
         }
 
         private void SupportedFileFormatsTSMItem_Click(object sender, EventArgs e)
@@ -220,6 +221,5 @@ namespace SimplePictureViewer
             string message = "Supported image extensions: \n- " + String.Join("\n- ", _supportedImageExtensions);
             MessageBox.Show(message, "Supported Extensions", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-
     }
 }

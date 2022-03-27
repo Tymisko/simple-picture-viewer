@@ -29,101 +29,101 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.PbImage = new System.Windows.Forms.PictureBox();
-            this.BtnClose = new System.Windows.Forms.Button();
+            this._pb = new System.Windows.Forms.PictureBox();
+            this._btnClose = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.btnNextImage = new System.Windows.Forms.Button();
-            this.btnPreviousImage = new System.Windows.Forms.Button();
+            this._btnNextImage = new System.Windows.Forms.Button();
+            this._btnPreviousImage = new System.Windows.Forms.Button();
             this.MenuStrip = new System.Windows.Forms.MenuStrip();
-            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ImgTSMItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.folderTsmItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._folderTSMItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._helpTSMItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SupFileFormatsTSMItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.projectTSMItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._projectTSMItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lbEmptyPb = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.PbImage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._pb)).BeginInit();
             this.MenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
-            // PbImage
+            // _pb
             // 
-            resources.ApplyResources(this.PbImage, "PbImage");
-            this.PbImage.Name = "PbImage";
-            this.PbImage.TabStop = false;
+            resources.ApplyResources(this._pb, "_pb");
+            this._pb.Name = "_pb";
+            this._pb.TabStop = false;
             // 
-            // BtnClose
+            // _btnClose
             // 
-            resources.ApplyResources(this.BtnClose, "BtnClose");
-            this.BtnClose.Name = "BtnClose";
-            this.BtnClose.UseVisualStyleBackColor = true;
-            this.BtnClose.Click += new System.EventHandler(this.BtnClose_Click);
+            resources.ApplyResources(this._btnClose, "_btnClose");
+            this._btnClose.Name = "_btnClose";
+            this._btnClose.UseVisualStyleBackColor = true;
+            this._btnClose.Click += new System.EventHandler(this.BtnClose_Click);
             // 
-            // btnNextImage
+            // _btnNextImage
             // 
-            resources.ApplyResources(this.btnNextImage, "btnNextImage");
-            this.btnNextImage.Name = "btnNextImage";
-            this.btnNextImage.UseVisualStyleBackColor = true;
-            this.btnNextImage.Click += new System.EventHandler(this.BtnNextImage_Click);
+            resources.ApplyResources(this._btnNextImage, "_btnNextImage");
+            this._btnNextImage.Name = "_btnNextImage";
+            this._btnNextImage.UseVisualStyleBackColor = true;
+            this._btnNextImage.Click += new System.EventHandler(this.BtnNextImage_Click);
             // 
-            // btnPreviousImage
+            // _btnPreviousImage
             // 
-            resources.ApplyResources(this.btnPreviousImage, "btnPreviousImage");
-            this.btnPreviousImage.Name = "btnPreviousImage";
-            this.btnPreviousImage.UseVisualStyleBackColor = true;
-            this.btnPreviousImage.Click += new System.EventHandler(this.BtnPreviousImage_Click);
+            resources.ApplyResources(this._btnPreviousImage, "_btnPreviousImage");
+            this._btnPreviousImage.Name = "_btnPreviousImage";
+            this._btnPreviousImage.UseVisualStyleBackColor = true;
+            this._btnPreviousImage.Click += new System.EventHandler(this.BtnPreviousImage_Click);
             // 
             // MenuStrip
             // 
-            resources.ApplyResources(this.MenuStrip, "MenuStrip");
             this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem,
-            this.helpToolStripMenuItem});
+            this._openToolStripMenuItem,
+            this._helpTSMItem});
+            resources.ApplyResources(this.MenuStrip, "MenuStrip");
             this.MenuStrip.Name = "MenuStrip";
             // 
-            // openToolStripMenuItem
+            // _openToolStripMenuItem
             // 
-            resources.ApplyResources(this.openToolStripMenuItem, "openToolStripMenuItem");
-            this.openToolStripMenuItem.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.openToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.openToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._openToolStripMenuItem.BackColor = System.Drawing.Color.WhiteSmoke;
+            this._openToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this._openToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ImgTSMItem,
-            this.folderTsmItem});
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this._folderTSMItem});
+            this._openToolStripMenuItem.Name = "_openToolStripMenuItem";
+            resources.ApplyResources(this._openToolStripMenuItem, "_openToolStripMenuItem");
             // 
             // ImgTSMItem
             // 
-            resources.ApplyResources(this.ImgTSMItem, "ImgTSMItem");
             this.ImgTSMItem.Name = "ImgTSMItem";
+            resources.ApplyResources(this.ImgTSMItem, "ImgTSMItem");
             this.ImgTSMItem.Click += new System.EventHandler(this.ImgTSMItem_Click);
             // 
-            // folderTsmItem
+            // _folderTSMItem
             // 
-            resources.ApplyResources(this.folderTsmItem, "folderTsmItem");
-            this.folderTsmItem.Name = "folderTsmItem";
-            this.folderTsmItem.Click += new System.EventHandler(this.FolderTSMItem_Click);
+            this._folderTSMItem.Name = "_folderTSMItem";
+            resources.ApplyResources(this._folderTSMItem, "_folderTSMItem");
+            this._folderTSMItem.Click += new System.EventHandler(this.FolderTSMItem_Click);
             // 
-            // helpToolStripMenuItem
+            // _helpTSMItem
             // 
-            resources.ApplyResources(this.helpToolStripMenuItem, "helpToolStripMenuItem");
-            this.helpToolStripMenuItem.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.helpToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._helpTSMItem.BackColor = System.Drawing.Color.WhiteSmoke;
+            this._helpTSMItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this._helpTSMItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SupFileFormatsTSMItem,
-            this.projectTSMItem});
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this._projectTSMItem});
+            this._helpTSMItem.Name = "_helpTSMItem";
+            resources.ApplyResources(this._helpTSMItem, "_helpTSMItem");
             // 
             // SupFileFormatsTSMItem
             // 
-            resources.ApplyResources(this.SupFileFormatsTSMItem, "SupFileFormatsTSMItem");
             this.SupFileFormatsTSMItem.Name = "SupFileFormatsTSMItem";
+            resources.ApplyResources(this.SupFileFormatsTSMItem, "SupFileFormatsTSMItem");
             this.SupFileFormatsTSMItem.Click += new System.EventHandler(this.SupportedFileFormatsTSMItem_Click);
             // 
-            // projectTSMItem
+            // _projectTSMItem
             // 
-            resources.ApplyResources(this.projectTSMItem, "projectTSMItem");
-            this.projectTSMItem.Name = "projectTSMItem";
-            this.projectTSMItem.Click += new System.EventHandler(this.ProjectTSMItem_Click);
+            this._projectTSMItem.Name = "_projectTSMItem";
+            resources.ApplyResources(this._projectTSMItem, "_projectTSMItem");
+            this._projectTSMItem.Click += new System.EventHandler(this.ProjectTSMItem_Click);
             // 
             // lbEmptyPb
             // 
@@ -136,15 +136,15 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.Controls.Add(this.lbEmptyPb);
-            this.Controls.Add(this.btnPreviousImage);
-            this.Controls.Add(this.btnNextImage);
-            this.Controls.Add(this.BtnClose);
+            this.Controls.Add(this._btnPreviousImage);
+            this.Controls.Add(this._btnNextImage);
+            this.Controls.Add(this._btnClose);
             this.Controls.Add(this.MenuStrip);
-            this.Controls.Add(this.PbImage);
+            this.Controls.Add(this._pb);
             this.MainMenuStrip = this.MenuStrip;
             this.Name = "MainForm";
             this.ShowIcon = false;
-            ((System.ComponentModel.ISupportInitialize)(this.PbImage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._pb)).EndInit();
             this.MenuStrip.ResumeLayout(false);
             this.MenuStrip.PerformLayout();
             this.ResumeLayout(false);
@@ -153,18 +153,18 @@
         }
 
         #endregion
-        private PictureBox PbImage;
-        private Button BtnClose;
+        private PictureBox _pb;
+        private Button _btnClose;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private Button btnNextImage;
-        private Button btnPreviousImage;
+        private Button _btnNextImage;
+        private Button _btnPreviousImage;
         private MenuStrip MenuStrip;
-        private ToolStripMenuItem openToolStripMenuItem;
+        private ToolStripMenuItem _openToolStripMenuItem;
         private ToolStripMenuItem ImgTSMItem;
-        private ToolStripMenuItem folderTsmItem;
-        private ToolStripMenuItem helpToolStripMenuItem;
+        private ToolStripMenuItem _folderTSMItem;
+        private ToolStripMenuItem _helpTSMItem;
         private ToolStripMenuItem SupFileFormatsTSMItem;
-        private ToolStripMenuItem projectTSMItem;
+        private ToolStripMenuItem _projectTSMItem;
         private Label lbEmptyPb;
     }
 }
