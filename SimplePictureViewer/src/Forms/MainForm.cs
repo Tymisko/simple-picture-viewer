@@ -22,8 +22,6 @@ namespace SimplePictureViewer
             Folder
         }
 
-        private event Action<OpenType, string> OnPictureContentSelected;
-
         public MainForm()
         {
             InitializeComponent();
@@ -35,9 +33,6 @@ namespace SimplePictureViewer
 
             BtnClose.Enabled = false;
             RemoveNavitagionButtons();
-
-            OnPictureContentSelected += EnableButtons;
-            OnPictureContentSelected += SetPictureBoxContent;
 
             this.KeyDown += BtnNextImage_OnKeyDown;
             this.KeyDown += BtnPreviousImage_OnKeyDown;
@@ -89,7 +84,7 @@ namespace SimplePictureViewer
             return imagesInSelectedPath;
         }
 
-        private void EnableButtons(OpenType openType, string sourcePath)
+        private void EnableButtons(OpenType openType)
         {
             switch (openType)
             {
@@ -200,7 +195,8 @@ namespace SimplePictureViewer
         {
             if (_openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                OnPictureContentSelected?.Invoke(OpenType.File, _openFileDialog.FileName);
+                SetPictureBoxContent(OpenType.File, _openFileDialog.FileName);
+                EnableButtons(OpenType.File);
             }
         }
 
@@ -209,7 +205,8 @@ namespace SimplePictureViewer
             if (_folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
                 string selectedFolderPath = _folderBrowserDialog.SelectedPath;
-                OnPictureContentSelected?.Invoke(OpenType.Folder, selectedFolderPath);
+                SetPictureBoxContent(OpenType.Folder, selectedFolderPath);
+                EnableButtons(OpenType.Folder);
             }
         }
 
