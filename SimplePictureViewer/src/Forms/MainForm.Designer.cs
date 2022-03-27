@@ -36,7 +36,6 @@
             this._btnPreviousImage = new System.Windows.Forms.Button();
             this.MenuStrip = new System.Windows.Forms.MenuStrip();
             this._openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ImgTSMItem = new System.Windows.Forms.ToolStripMenuItem();
             this._folderTSMItem = new System.Windows.Forms.ToolStripMenuItem();
             this._helpTSMItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SupFileFormatsTSMItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -86,16 +85,9 @@
             this._openToolStripMenuItem.BackColor = System.Drawing.Color.WhiteSmoke;
             this._openToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this._openToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ImgTSMItem,
             this._folderTSMItem});
             this._openToolStripMenuItem.Name = "_openToolStripMenuItem";
             resources.ApplyResources(this._openToolStripMenuItem, "_openToolStripMenuItem");
-            // 
-            // ImgTSMItem
-            // 
-            this.ImgTSMItem.Name = "ImgTSMItem";
-            resources.ApplyResources(this.ImgTSMItem, "ImgTSMItem");
-            this.ImgTSMItem.Click += new System.EventHandler(this.ImgTSMItem_Click);
             // 
             // _folderTSMItem
             // 
@@ -125,10 +117,10 @@
             resources.ApplyResources(this._projectTSMItem, "_projectTSMItem");
             this._projectTSMItem.Click += new System.EventHandler(this.ProjectTSMItem_Click);
             // 
-            // lbEmptyPb
+            // _lbEmptyPb
             // 
-            resources.ApplyResources(this._lbEmptyPb, "lbEmptyPb");
-            this._lbEmptyPb.Name = "lbEmptyPb";
+            resources.ApplyResources(this._lbEmptyPb, "_lbEmptyPb");
+            this._lbEmptyPb.Name = "_lbEmptyPb";
             // 
             // MainForm
             // 
@@ -160,7 +152,6 @@
         private Button _btnPreviousImage;
         private MenuStrip MenuStrip;
         private ToolStripMenuItem _openToolStripMenuItem;
-        private ToolStripMenuItem ImgTSMItem;
         private ToolStripMenuItem _folderTSMItem;
         private ToolStripMenuItem _helpTSMItem;
         private ToolStripMenuItem SupFileFormatsTSMItem;
