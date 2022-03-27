@@ -16,6 +16,7 @@ namespace SimplePictureViewer
             _displayManager.InitUISettings();
 
             KeyPreview = true;
+            PreviewKeyDown += PreviewKeyDownEventHandler;
             KeyDown += KeyDownEventHandler;
         }
 
@@ -59,11 +60,24 @@ namespace SimplePictureViewer
             switch (eventArgs.KeyCode)
             {
                 case Keys.A:
+                case Keys.Left:
                     _displayManager.DisplayPreviousImage();
                     break;
 
+                case Keys.Right:
                 case Keys.D:
                     _displayManager.DisplayNextImage();
+                    break;
+            }
+        }
+
+        internal void PreviewKeyDownEventHandler(object secnder, PreviewKeyDownEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Left:
+                case Keys.Right:
+                    e.IsInputKey = true;
                     break;
             }
         }
