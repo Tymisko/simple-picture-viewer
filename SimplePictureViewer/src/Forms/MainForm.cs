@@ -1,8 +1,10 @@
+using SimplePictureViewer.Helpers;
+
 namespace SimplePictureViewer
 {
     public partial class MainForm : Form
     {
-        private string[] _supportedImageExtensions = new[] { "BMP", "GIF", "JPEG", "JPG", "EXIF", "PNG", "TIFF", "SVG" };
+        private readonly string[] _supportedImageExtensions = new[] { "BMP", "GIF", "JPEG", "JPG", "EXIF", "PNG", "TIFF", "SVG" };
 
         private string[] _imagesPathsInSelectedFolder;
         private int _currentImageIndex;
@@ -12,21 +14,48 @@ namespace SimplePictureViewer
         private bool _isFirstImage;
         private bool _isFolderLoaded;
 
+        private FileHelper<OpenedFolderData> _openedFolderDataFileHelper;
+
         public MainForm()
         {
             InitializeComponent();
 
-            _currentImageIndex = -1;
-            _isFolderLoaded = false;
+            _openedFolderDataFileHelper = new(Program.OpenedFolderDataPath);
 
-            _btnPreviousImage.Enabled = false;
-            _btnNextImage.Enabled = false;
-            _btnClose.Enabled = false;
+            if (File.Exists(Program.OpenedFolderDataPath))
+            {
+                LoadPreviouslyOpenedFolderData();
+                RefreshUI();
+            }
+            else
+            {
+                _currentImageIndex = -1;
+                _imagesPathsInSelectedFolder = Array.Empty<string>();
+
+                _btnPreviousImage.Enabled = false;
+                _btnNextImage.Enabled = false;
+                _btnClose.Enabled = false;
+            }
 
             KeyPreview = true;
             PreviewKeyDown += PreviewKeyDownEventHandler;
             KeyDown += KeyDownEventHandler;
         }
+
+        private void LoadPreviouslyOpenedFolderData()
+        {
+            var previouslyOpenedFolderData = _openedFolderDataFileHelper.DeserializeFromJson();
+
+            _currentImageIndex = previouslyOpenedFolderData.CurrentImageIndex;
+            _isFolderLoaded = previouslyOpenedFolderData.IsFolderLoaded;
+            _isFirstImage = previouslyOpenedFolderData.IsFirstImage;
+            _isLastImage = previouslyOpenedFolderData.IsLastImage;
+            _imagesPathsInSelectedFolder = previouslyOpenedFolderData.ImagesPathsInSelectedFolder;
+            _folderHasSeveralImages = previouslyOpenedFolderData.FolderHasSeveralImages;
+
+            File.Delete(Program.OpenedFolderDataPath);
+        }
+
         private void FolderTSMItem_Click(object sender, EventArgs e)
         {
             _imagesPathsInSelectedFolder = GetImagesFromSelectedFolder();
@@ -52,19 +81,18 @@ namespace SimplePictureViewer
 
             _btnNextImage.Enabled = _folderHasSeveralImages && !_isLastImage;
             _btnPreviousImage.Enabled = _folderHasSeveralImages && !_isFirstImage;
-
             _btnClose.Enabled = _isFolderLoaded;
         }
 
         private string[] GetImagesFromSelectedFolder()
         {
-            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+            FolderBrowserDialog folderBrowserDialog = new();
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
                 var selectedFolderPath = folderBrowserDialog.SelectedPath;
                 string[] filesPathInSelected = Directory.GetFiles(selectedFolderPath);
 
-                List<string> imagesInSelectedPath = new List<string>();
+                List<string> imagesInSelectedPath = new();
                 foreach (var filePath in filesPathInSelected)
                 {
                     if (_supportedImageExtensions.Contains(Path.GetExtension(filePath).ToUpperInvariant().Trim('.')))
@@ -76,7 +104,7 @@ namespace SimplePictureViewer
                 return imagesInSelectedPath.ToArray();
             }
 
-            return new string[0];
+            return Array.Empty<string>();
         }
 
         private void BtnClose_Click(object sender, EventArgs e)
@@ -125,7 +153,7 @@ namespace SimplePictureViewer
             }
         }
 
-        internal void PreviewKeyDownEventHandler(object secnder, PreviewKeyDownEventArgs e)
+        internal void PreviewKeyDownEventHandler(object sender, PreviewKeyDownEventArgs e)
         {
             switch (e.KeyCode)
             {
@@ -135,5 +163,44 @@ namespace SimplePictureViewer
                     break;
             }
         }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (_isFolderLoaded)
+            {
+                SaveCurrentlyOpenedFolderDataToFile();
+            }
+        }
+
+        private void SaveCurrentlyOpenedFolderDataToFile()
+        {
+            OpenedFolderData openedFolderData = GetCurrentlyOpenFolderData();
+            _openedFolderDataFileHelper.SerializeToJson(openedFolderData);
+        }
+
+        private OpenedFolderData GetCurrentlyOpenFolderData()
+        {
+            OpenedFolderData openedFolderData = new();
+
+            openedFolderData.ImagesPathsInSelectedFolder = _imagesPathsInSelectedFolder;
+            openedFolderData.CurrentImageIndex = _currentImageIndex;
+            openedFolderData.FolderHasSeveralImages = _folderHasSeveralImages;
+            openedFolderData.IsLastImage = _isLastImage;
+            openedFolderData.IsFirstImage = _isFirstImage;
+            openedFolderData.IsFolderLoaded = _isFolderLoaded;
+
+            return openedFolderData;
+        }
+    }
+
+    internal class OpenedFolderData
+    {
+        public string[] ImagesPathsInSelectedFolder;
+        public int CurrentImageIndex;
+
+        public bool FolderHasSeveralImages;
+        public bool IsLastImage;
+        public bool IsFirstImage;
+        public bool IsFolderLoaded;
     }
 }
